@@ -6,13 +6,8 @@
  * User Manual available at https://docs.gradle.org/5.4.1/userguide/tutorial_java_projects.html
  */
 
-plugins {
-    // Apply the java plugin to add support for Java
-    id 'java'
-
-    // Apply the application plugin to add support for building an application
-    id 'application'
-}
+apply plugin: 'java'
+apply plugin: 'application'
 
 repositories {
     // Use jcenter for resolving your dependencies.
@@ -30,3 +25,13 @@ dependencies {
 
 // Define the main class for the application
 mainClassName = 'gradle.basics.App'
+
+java {
+    sourceCompatibility JavaVersion.VERSION_1_8
+}
+
+task Foo {
+    println 'Gradle leverages groovy, which is a standard programming language, much more powerful than xml or json.'
+}
+
+

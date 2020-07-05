@@ -42,3 +42,13 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }
+
+afterEvaluate { // 在afterEvaluate中,gradle才完成这个task的创建，才能找到这个任务实例
+    def targetTask = project.tasks.findByName("assembleDebug")
+    targetTask.doLast { // 每个task都可以挂任意数量的doFirst/doLast
+        println("GRADLE IS SO POWERFUL.\n")
+    }
+    targetTask.outputs.upToDateWhen { // gradle task 有up-to-date机制
+        false
+    }
+}

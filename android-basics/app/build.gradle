@@ -52,3 +52,25 @@ afterEvaluate { // 在afterEvaluate中,gradle才完成这个task的创建，才�
         false
     }
 }
+
+task NjuTask1(type: DefaultTask) {  // 这个闭包是用于配置task的闭包，不是task action
+    println("This is NJU Task1 at configuration time.")
+}
+
+afterEvaluate { // 也可以在这里增加task，从而可以配置一些依赖关系
+    def targetTask = project.tasks.findByName("assembleDebug")
+    project.tasks.create("NjuTask2") {
+        it.dependsOn targetTask
+    }
+}
+
+task NjuTask3(type: NjuTaskType) {
+
+}
+
+class NjuTaskType extends DefaultTask {
+    @TaskAction
+    public void foo() {
+        println("NJU Task type at executing time.")
+    }
+}

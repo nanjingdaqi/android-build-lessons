@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'nju.plugin'
 
 android {
     compileSdkVersion 29

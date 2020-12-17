@@ -1,3 +1,5 @@
+import java.nio.file.Paths
+
 apply plugin: 'com.android.application'
 apply plugin: 'nju.plugin'
 
@@ -73,5 +75,26 @@ class NjuTaskType extends DefaultTask {
     @TaskAction
     public void foo() {
         println("NJU Task type at executing time.")
+    }
+}
+
+project.afterEvaluate {
+    def tasks = new ArrayList<Task>()
+    tasks.add(project.tasks.findByName("mergeReleaseAssets"))
+    tasks.add(project.tasks.findByName("mergeDebugAssets"))
+    tasks.each { curTask ->
+        curTask.doLast {
+            def midPath = curTask.name.contains("Release") ? "release" : "debug"
+            // find your assets and delete them
+            def targetDir = Paths.get(project.buildDir.absolutePath, "intermediates", "merged_assets", midPath, curTask.name, "out").toFile()
+            if (!targetDir.exists()) {
+                logKey("Fail to find target merged dir: ${targetDir.absolutePath}")
+                // 升级了agp到334之后，目录发生了变化
+                targetDir = Paths.get(project.buildDir.absolutePath, "intermediates", "merged_assets", midPath, "out").toFile()
+            }
+
+            def newFile = new File(targetDir, "daqi_haha.txt")
+            newFile.write("haha")
+        }
     }
 }

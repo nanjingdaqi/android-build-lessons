@@ -1,4 +1,5 @@
 import java.nio.file.Paths
+import java.text.SimpleDateFormat
 
 apply plugin: 'com.android.application'
 apply plugin: 'nju.plugin'
@@ -97,4 +98,14 @@ project.afterEvaluate {
             newFile.write("haha")
         }
     }
+}
+
+// homework: 修改生成的debug apk的名字为: nju_byte__${YYYY-MM-DD_HH-MM}.apk, e.g nju_byte__2021-07-12_08-35.apk
+project.afterEvaluate {
+    /*
+    要点：
+    a) 找到需要hook的gradle task，这里一般是assembleDebug任务
+    b) 跑一遍assembleDebug，在app/build目录下找到生成的apk路径
+    c) 构造需要生成的apk的名字，然后修改apk的名字
+     */
 }
